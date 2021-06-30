@@ -20,7 +20,6 @@ while i>0 and j>0:
 			i-=1
 		else:
 			j-=1
-for i in a[::-1]:
-	print(i,end="")
+print(*a[::-1])
 
 
