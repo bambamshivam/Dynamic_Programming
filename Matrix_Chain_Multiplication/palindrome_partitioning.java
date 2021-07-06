@@ -1,5 +1,5 @@
 import java.util.*;
-public class palindrome_partitioning{
+class palindrome_partitioning{
 	static int dp[][];
 	public static boolean ispal(String s,int i,int j){
 		while(i<=j){
