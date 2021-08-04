@@ -1,36 +1,35 @@
-l=list(map(int,input().split()))
-n=len(l)
-adj=[[] for i in range(n)]
-root=0
-ans=[0]
-for i in range(n):
-	if l[i]!=-1:
-		adj[i].append(l[i])
-		adj[l[i]].append(i)
-	else:
-		root=i
-		adj[i].append(i)
-l[root]=0
-def solve(i,ans):
-	if len(adj[i])<=1:
-		return 1
+pairs=["b-e","b-c","c-d","a-b","e-f"]
+
+adj=[[] for i in range(26)]
+for i in range(len(pairs)):
+	adj[ord(pairs[i][0])-97].append(ord(pairs[i][2])-97)
+	adj[ord(pairs[i][2])-97].append(ord(pairs[i][0])-97)
+print(adj)
+def dep(i,di):
+    m = 0
+    di[i]=1
+    for j in range(len(adj[i])):
+    	if di.get(adj[i][j],-1)==-1:
+        	m = max(m , dep(adj[i][j],di))
+    return m + 1
+
+def solve(i,di):
+	di[i]=1
 	m1,m2=0,0
 	for j in range(len(adj[i])):
-		t=0
-		if adj[i][j]!=l[i]:
-			t=solve(adj[i][j],ans)
-		if t>m1:
-			m2=m1
-			m1=t
-		elif t>m2:
-			m2=t
-	ans[0]=max(ans[0],m1+m2+1)
-	return 1+m1
-if len(l)==1:
-	print(0)
-else:
-	solve(root,ans)
-	print(ans[0]-1)
+		h=dep(adj[i][j],{})
+		if h>m1:
+			m2,m1=m1,h
+		elif h>m2:
+			m2=h
+
+	m=0
+	for j in range(len(adj[i])):
+		if di.get(adj[i][j],-1)==-1:
+			m=max(m,solve(adj[i][j],di))
+	return max(m,m1+m2+1)
+
+print(solve(0,{}))
 
 
 
